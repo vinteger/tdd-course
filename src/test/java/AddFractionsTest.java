@@ -27,4 +27,11 @@ public class AddFractionsTest {
         Fraction sum = new Fraction(-5).plus(new Fraction(-6));
         assertEquals(-11, sum.value());
     }
+
+    @Test
+    public void simplifiedWithCommonDenominator() {
+        Fraction sum = new Fraction(1, 5).plus(new Fraction(3, 5));
+        assertEquals(4, sum.getNumerator());
+        assertEquals(5, sum.getDenominator());
+    }
 }
