@@ -25,31 +25,31 @@ public class SaleTest {
     @Test
     public void productFound_displaysPrice() {
         sale.onBarcode(12345);
-        assertThat(display.displayPrice()).isEqualTo("$1.99");
+        assertThat(display.getText()).isEqualTo("$1.99");
     }
 
     @Test
     public void productFoundAgain_displaysPrice() {
         sale.onBarcode(23456);
-        assertThat(display.displayPrice()).isEqualTo("$2.99");
+        assertThat(display.getText()).isEqualTo("$2.99");
     }
 
     @Test
     public void nonExistingBarcode_00000_displaysProductNotFound() {
         sale.onBarcode(88888);
-        assertThat(display.displayPrice()).isEqualTo("Product not found for: 88888");
+        assertThat(display.getText()).isEqualTo("Product not found for: 88888");
     }
 
     @Test
     public void nonExistingBarcode_99999_displaysProductNotFound() {
         sale.onBarcode(99999);
-        assertThat(display.displayPrice()).isEqualTo("Product not found for: 99999");
+        assertThat(display.getText()).isEqualTo("Product not found for: 99999");
     }
 
     @Test
     public void null_displaysInvalidInput() {
         sale.onBarcode(null);
-        assertThat(display.displayPrice()).isEqualTo("Invalid input");
+        assertThat(display.getText()).isEqualTo("Invalid input");
     }
 
     public class Sale {
@@ -88,14 +88,14 @@ public class SaleTest {
     }
 
     public class Display {
-        String priceAsText;
+        String text;
 
-        public String displayPrice() {
-            return priceAsText;
+        public String getText() {
+            return text;
         }
 
-        public void setPriceAsText(String priceAsText) {
-            this.priceAsText = priceAsText;
+        private void setPriceAsText(String priceAsText) {
+            this.text = priceAsText;
         }
 
         public void displayProductNotFoundForBarcode(Integer barcode) {
