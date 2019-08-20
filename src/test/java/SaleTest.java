@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +11,9 @@ public class SaleTest {
     Sale sale;
     Display display;
     Catalog catalog;
-    Map<Integer, String> priceByBarcode = new HashMap<Integer, String>() {{
-        put(12345, "$1.99");
-        put(23456, "$2.99");
+    Map<Integer, BigDecimal> priceByBarcode = new HashMap<Integer, BigDecimal>() {{
+        put(12345, BigDecimal.valueOf(1.99));
+        put(23456, BigDecimal.valueOf(2.99));
     }};
 
     @Before
@@ -25,13 +26,13 @@ public class SaleTest {
     @Test
     public void productFound_displaysPrice() {
         sale.onBarcode(12345);
-        assertThat(display.getText()).isEqualTo("$1.99");
+        assertThat(display.getText()).isEqualTo("1.99");
     }
 
     @Test
     public void productFoundAgain_displaysPrice() {
         sale.onBarcode(23456);
-        assertThat(display.getText()).isEqualTo("$2.99");
+        assertThat(display.getText()).isEqualTo("2.99");
     }
 
     @Test
@@ -83,7 +84,7 @@ public class SaleTest {
         }
 
         private String findPrice(Integer barcode) {
-            return catalog.getPriceByBarcode().get(barcode);
+            return catalog.getPriceByBarcode().get(barcode).toString();
         }
     }
 
@@ -108,13 +109,13 @@ public class SaleTest {
     }
 
     public class Catalog {
-        private Map<Integer, String> priceByBarcode;
+        private Map<Integer, BigDecimal> priceByBarcode;
 
-        public Catalog(Map<Integer, String> priceByBarcode) {
+        public Catalog(Map<Integer, BigDecimal> priceByBarcode) {
             this.priceByBarcode = priceByBarcode;
         }
 
-        public Map<Integer, String> getPriceByBarcode() {
+        public Map<Integer, BigDecimal> getPriceByBarcode() {
             return priceByBarcode;
         }
     }
