@@ -2,16 +2,17 @@ public class StringKata {
     public String startWord(String str, String word) {
 
         String result = "";
+        String wordIgnoringFirstChar = word.substring(1);
+        int wordLength = word.length();
 
         if (str.equals("")) {
             return result;
         }
 
-        int wordLength = word.length();
-        String matcher = str.substring(0, wordLength);
+        String matcher = str.substring(1, wordLength);
 
-        if(matcher.equals(word)) {
-            result = word;
+        if(matcher.equals(wordIgnoringFirstChar)) {
+            result = str.substring(0, wordLength);
         }
 
         return result;

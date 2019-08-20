@@ -24,12 +24,17 @@ public class StartWordTest {
     }
 
     @Test
-    public void return_emptyString_with_noMatch() {
+    public void emptyString_with_noMatch() {
         assertThat(kata.startWord("", "abc")).isEqualTo("");
     }
 
     @Test
-    public void return_hi_with_hippo() {
+    public void hi_with_hippo_returns_hi() {
         assertThat(kata.startWord("hippo", "hi")).isEqualTo("hi");
+    }
+
+    @Test
+    public void xip_with_hippo_returns_hip() {
+        assertThat(kata.startWord("hippo", "xip")).isEqualTo("hip");
     }
 }
