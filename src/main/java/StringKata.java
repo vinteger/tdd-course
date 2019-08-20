@@ -5,7 +5,7 @@ public class StringKata {
         String wordIgnoringFirstChar = word.substring(1);
         int wordLength = word.length();
 
-        if (str.equals("")) {
+        if (str.equals("") || wordLength > str.length()) {
             return result;
         }
 

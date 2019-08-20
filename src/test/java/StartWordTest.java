@@ -12,9 +12,9 @@ public class StartWordTest {
      * returns "hip". The word will be at least length 1.
      *
      *
-     * startWord("hippo", "hi") → "hi"
-     * startWord("hippo", "xip") → "hip"
-     * startWord("hippo", "i") → "h"
+     * startWord("hippo", "hi") → "hi" ✅
+     * startWord("hippo", "xip") → "hip" ✅
+     * startWord("hippo", "i") → "h" ✅
      */
     StringKata kata;
 
@@ -36,5 +36,15 @@ public class StartWordTest {
     @Test
     public void xip_with_hippo_returns_hip() {
         assertThat(kata.startWord("hippo", "xip")).isEqualTo("hip");
+    }
+
+    @Test
+    public void i_with_hippo_returns_h() {
+        assertThat(kata.startWord("hippo", "i")).isEqualTo("h");
+    }
+
+    @Test
+    public void xi_with_h_returns_emptyString() {
+        assertThat(kata.startWord("h", "ix")).isEqualTo("");
     }
 }
