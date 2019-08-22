@@ -1,7 +1,7 @@
 public class Display {
     private String text;
 
-    public String getText() {
+    public String getDisplayText() {
         return text;
     }
 

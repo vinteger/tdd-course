@@ -25,7 +25,7 @@ public class Sale {
     }
 
     private void setTextByBarcode(Integer barcode) {
-        display.setPriceAsText(findPrice(barcode));
+        display.setPriceAsText("Total: $" + findPrice(barcode));
     }
 
     private String findPrice(Integer barcode) {

@@ -27,6 +27,11 @@ public class SaleMultipleItemsTest {
 
     @Test
     public void multipleItems_displaysTotal() {
+        sale.onBarcode(12345);
+        sale.onBarcode(23456);
+        sale.onBarcode(34567);
+
+        assertThat(display.getDisplayText()).isEqualTo("Total: $30.00");
     }
 
 }
