@@ -9,6 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SaleMultipleItemsTest {
 
+    final String TOTAL = "Total: $";
+
     private Sale sale;
     private Display display;
     private Catalog catalog;
@@ -31,16 +33,15 @@ public class SaleMultipleItemsTest {
         sale.onBarcode(23456);
         sale.onBarcode(34567);
 
-        assertThat(display.getDisplayText()).isEqualTo("Total: $30.00");
+        assertThat(display.getDisplayText()).isEqualTo(TOTAL + "30.00");
     }
 
-    /**
-     * Big Decimal example
-     *
-     * BigDecimal modelVal = new BigDecimal("0");
-     * BigDecimal displayVal = modelVal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
-     * System.out.println("This is a BigDecimal: " + displayVal);
-     *
-     */
+    @Test
+    public void someItemsFound_displaysCorrectTotal() {
+        sale.onBarcode(23456);
+        sale.onBarcode(00000);
+        sale.onBarcode(34567);
 
+        assertThat(display.getDisplayText()).isEqualTo(TOTAL + "20.00");
+    }
 }
