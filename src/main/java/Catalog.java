@@ -11,4 +11,8 @@ public class Catalog {
     public Map<Integer, BigDecimal> getPriceByBarcode() {
         return priceByBarcode;
     }
+
+    public BigDecimal getPrice(Integer barcode) {
+        return priceByBarcode.get(barcode);
+    }
 }

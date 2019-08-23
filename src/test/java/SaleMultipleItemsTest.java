@@ -34,4 +34,13 @@ public class SaleMultipleItemsTest {
         assertThat(display.getDisplayText()).isEqualTo("Total: $30.00");
     }
 
+    /**
+     * Big Decimal example
+     *
+     * BigDecimal modelVal = new BigDecimal("0");
+     * BigDecimal displayVal = modelVal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+     * System.out.println("This is a BigDecimal: " + displayVal);
+     *
+     */
+
 }

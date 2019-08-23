@@ -5,15 +5,19 @@ public class Display {
         return text;
     }
 
-    public void setPriceAsText(String priceAsText) {
-        this.text = priceAsText;
+    public void setDisplayText(String text) {
+        this.text = text;
+    }
+
+    public void displayProductPrice(String priceAsText) {
+        setDisplayText("Total: $" + priceAsText);
     }
 
     public void displayProductNotFoundForBarcode(Integer barcode) {
-        setPriceAsText("Product not found for: " + barcode);
+        setDisplayText("Product not found for: " + barcode);
     }
 
     public void displayInvalidInput() {
-        setPriceAsText("Invalid input");
+        setDisplayText("Invalid input");
     }
 }
