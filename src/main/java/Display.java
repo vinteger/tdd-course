@@ -13,6 +13,10 @@ public class Display {
         setText(priceAsText);
     }
 
+    public void displayTotalPurchase(String price) {
+        setText("Total: $" + price);
+    }
+
     public void displayProductNotFoundForBarcode(Integer barcode) {
         setText("Product not found for: " + barcode);
     }
