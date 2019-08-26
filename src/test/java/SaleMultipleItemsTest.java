@@ -2,9 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,19 +25,39 @@ public class SaleMultipleItemsTest {
 
     @Test
     public void zeroItems() {
-        sale.onTotal();
+        sale.getTotal();
 
         assertThat(display.getText()).isEqualTo("No sale in progress. Try scanning a product.");
     }
 
     @Test
     public void sellOneItem() {
-        Catalog catalog = new Catalog(Collections.singletonMap(11111, BigDecimal.valueOf(6.50)));
+        sale.onBarcode(23456);
+
+        sale.getTotal();
+
+        assertThat(display.getText()).isEqualTo("Total: $15.00");
+    }
+
+    @Test
+    public void sellOneItem_notFound() {
+        Catalog catalog = new Catalog(Collections.singletonMap(null, null));
         sale = new Sale(display, catalog);
-        sale.onBarcode(11111);
+        sale.onBarcode(22222);
 
-        sale.onTotal();
+        sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("Total: $6.50");
+        assertThat(display.getText()).isEqualTo("No sale in progress. Try scanning a product.");
+    }
+
+    @Test
+    public void sellSeveralItems() {
+        for (Map.Entry<Integer, BigDecimal> product : priceByBarcode.entrySet()) {
+            sale.onBarcode(product.getKey());
+        }
+
+        sale.getTotal();
+
+        assertThat(display.getText()).isEqualTo("Total: $30.00");
     }
 }
