@@ -2,6 +2,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,5 +30,16 @@ public class SaleMultipleItemsTest {
         sale.onTotal();
 
         assertThat(display.getText()).isEqualTo("No sale in progress. Try scanning a product.");
+    }
+
+    @Test
+    public void sellOneItem() {
+        Catalog catalog = new Catalog(Collections.singletonMap(11111, BigDecimal.valueOf(6.50)));
+        sale = new Sale(display, catalog);
+        sale.onBarcode(11111);
+
+        sale.onTotal();
+
+        assertThat(display.getText()).isEqualTo("Total: $6.50");
     }
 }

@@ -8,6 +8,8 @@ public class Sale {
     private Catalog catalog;
     private List<BigDecimal> priceTotal = new ArrayList<>();
 
+    private BigDecimal price;
+
     public Sale(Display display, Catalog catalog) {
         this.display = display;
         this.catalog = catalog;
@@ -18,12 +20,12 @@ public class Sale {
             display.displayInvalidInput();
             return;
         }
-
-        if (findPriceByBarcode(barcode) != null) {
+        price = findPriceByBarcode(barcode);
+        if (price == null) {
+            display.displayProductNotFoundForBarcode(barcode);
+        } else {
             priceTotal.add(findPriceByBarcode(barcode));
             updateCurrentTotalText();
-        } else {
-            display.displayProductNotFoundForBarcode(barcode);
         }
     }
 
@@ -35,17 +37,18 @@ public class Sale {
         Optional<BigDecimal> total = priceTotal.stream().reduce(BigDecimal::add);
         BigDecimal totalAsDecimal = total.get().setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
-        display.displayProductPrice(totalAsDecimal.toString());
+        display.displayProductPrice("$" + totalAsDecimal.toString());
     }
 
     public void onTotal() {
-        display.displayNoSaleInProgress();
+        if (price == null) {
+            display.displayNoSaleInProgress();
+        } else {
+            display.displayProductPrice("Total: $" + formatMoney(price).toString());
+        }
     }
 
-//    public void endTransaction() {
-//        Optional<BigDecimal> total = priceTotal.stream().reduce(BigDecimal::add);
-//        BigDecimal totalAsDecimal = total.get().setScale(2, BigDecimal.ROUND_HALF_EVEN);
-//
-//        display.displayTotalAmount(totalAsDecimal.toString());
-//    }
+    private BigDecimal formatMoney(BigDecimal amount) {
+        return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    }
 }

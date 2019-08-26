@@ -10,7 +10,7 @@ public class Display {
     }
 
     public void displayProductPrice(String priceAsText) {
-        setText("$" + priceAsText);
+        setText(priceAsText);
     }
 
     public void displayProductNotFoundForBarcode(Integer barcode) {
