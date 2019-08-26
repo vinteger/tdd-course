@@ -1,23 +1,27 @@
 public class Display {
     private String text;
 
-    public String getDisplayText() {
+    public String getText() {
         return text;
     }
 
-    public void setDisplayText(String text) {
+    private void setText(String text) {
         this.text = text;
     }
 
     public void displayProductPrice(String priceAsText) {
-        setDisplayText("Total: $" + priceAsText);
+        setText("$" + priceAsText);
     }
 
     public void displayProductNotFoundForBarcode(Integer barcode) {
-        setDisplayText("Product not found for: " + barcode);
+        setText("Product not found for: " + barcode);
     }
 
     public void displayInvalidInput() {
-        setDisplayText("Invalid input");
+        setText("Invalid input");
+    }
+
+    public void displayNoSaleInProgress() {
+        setText("No sale in progress. Try scanning a product.");
     }
 }

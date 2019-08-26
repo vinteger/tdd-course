@@ -37,4 +37,15 @@ public class Sale {
 
         display.displayProductPrice(totalAsDecimal.toString());
     }
+
+    public void onTotal() {
+        display.displayNoSaleInProgress();
+    }
+
+//    public void endTransaction() {
+//        Optional<BigDecimal> total = priceTotal.stream().reduce(BigDecimal::add);
+//        BigDecimal totalAsDecimal = total.get().setScale(2, BigDecimal.ROUND_HALF_EVEN);
+//
+//        display.displayTotalAmount(totalAsDecimal.toString());
+//    }
 }
