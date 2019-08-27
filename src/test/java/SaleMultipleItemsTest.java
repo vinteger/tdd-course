@@ -14,6 +14,7 @@ public class SaleMultipleItemsTest {
        put(12345, BigDecimal.valueOf(10.00));
        put(23456, BigDecimal.valueOf(15.00));
        put(34567, BigDecimal.valueOf(5.00));
+       put(11111, BigDecimal.valueOf(0.01));
     }};
 
     @Before
@@ -51,13 +52,24 @@ public class SaleMultipleItemsTest {
     }
 
     @Test
-    public void sellSeveralItems() {
-        for (Map.Entry<Integer, BigDecimal> product : priceByBarcode.entrySet()) {
-            sale.onBarcode(product.getKey());
-        }
+    public void sellSeveralItems_trailingZeros() {
+        sale.onBarcode(12345);
+        sale.onBarcode(23456);
+        sale.onBarcode(34567);
 
         sale.getTotal();
 
         assertThat(display.getText()).isEqualTo("Total: $30.00");
+    }
+
+    @Test
+    public void sellSeveralItems_LeadingZeros() {
+        sale.onBarcode(23456);
+        sale.onBarcode(34567);
+        sale.onBarcode(11111);
+
+        sale.getTotal();
+
+        assertThat(display.getText()).isEqualTo("Total: $20.01");
     }
 }

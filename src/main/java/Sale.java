@@ -26,32 +26,36 @@ public class Sale {
 
         if (scannedPrice != null) {
             priceTotal.add(findPriceByBarcode(barcode));
-            updateCurrentTotalText();
+            updateCurrentTotalText(barcode); //TODO fix?
         } else {
             display.displayProductNotFoundForBarcode(barcode);
         }
-    }
-
-    private BigDecimal findPriceByBarcode(Integer barcode) {
-        return catalog.getPrice(barcode);
-    }
-
-    private void updateCurrentTotalText() {
-        display.displayProductPrice("$" + getCurrentTotal().toString());
     }
 
     public void getTotal() {
 
         boolean saleInProgress = scannedPrice != null;
         if (saleInProgress) {
-            display.displayTotalPurchase(getCurrentTotal().toString());
+            display.displayTotalPurchase(getCurrentTotal());
         } else {
             display.displayNoSaleInProgress();
         }
     }
 
-    private BigDecimal getCurrentTotal() {
+    private void updateCurrentTotalText(Integer barcode) {
+        display.displayProductPrice("$" + findPrice(barcode)); //TODO fix?
+    }
+
+    private BigDecimal findPriceByBarcode(Integer barcode) {
+        return catalog.getPrice(barcode);
+    }
+
+    private String findPrice(Integer barcode) { //TODO fix?
+        return catalog.getPrice(barcode).toString();
+    }
+
+    private String getCurrentTotal() {
         Optional<BigDecimal> total = priceTotal.stream().reduce(BigDecimal::add);
-        return total.get().setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        return total.get().setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
     }
 }
