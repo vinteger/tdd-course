@@ -25,8 +25,8 @@ public class Sale {
         scannedPrice = findPriceByBarcode(barcode);
 
         if (scannedPrice != null) {
-            priceTotal.add(findPriceByBarcode(barcode));
-            updateCurrentTotalText(barcode); //TODO fix?
+            priceTotal.add(scannedPrice);
+            updateCurrentTotalText(barcode);
         } else {
             display.displayProductNotFoundForBarcode(barcode);
         }
@@ -40,17 +40,18 @@ public class Sale {
         } else {
             display.displayNoSaleInProgress();
         }
+
     }
 
     private void updateCurrentTotalText(Integer barcode) {
-        display.displayProductPrice("$" + findPrice(barcode)); //TODO fix?
+        display.displayProductPrice("$" + findPrice(barcode));
     }
 
     private BigDecimal findPriceByBarcode(Integer barcode) {
         return catalog.getPrice(barcode);
     }
 
-    private String findPrice(Integer barcode) { //TODO fix?
+    private String findPrice(Integer barcode) {
         return catalog.getPrice(barcode).toString();
     }
 

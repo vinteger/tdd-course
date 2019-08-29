@@ -8,24 +8,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SaleMultipleItemsTest {
 
-    private Sale sale;
     private Display display;
+    private Catalog catalog;
+    private Sale sale;
     private Map<Integer, BigDecimal> priceByBarcode = new HashMap<Integer, BigDecimal>() {{
-       put(12345, BigDecimal.valueOf(10.00));
-       put(23456, BigDecimal.valueOf(15.00));
-       put(34567, BigDecimal.valueOf(5.00));
-       put(11111, BigDecimal.valueOf(0.01));
+        put(15000, BigDecimal.valueOf(15.00));
+        put(12345, BigDecimal.valueOf(1.00));
+        put(23456, BigDecimal.valueOf(2.00));
+        put(44444, BigDecimal.valueOf(0.40));
+        put(55555, BigDecimal.valueOf(0.05));
     }};
 
     @Before
     public void setUp() {
-        Catalog catalog = new Catalog(priceByBarcode);
         display = new Display();
+        catalog = new Catalog(priceByBarcode);
         sale = new Sale(display, catalog);
     }
 
     @Test
     public void zeroItems() {
+        Map<Integer, BigDecimal> priceByBarcode = Collections.singletonMap(null, null);
+        Catalog catalog = new Catalog(priceByBarcode);
+        Sale sale = new Sale(display, catalog);
+
         sale.getTotal();
 
         assertThat(display.getText()).isEqualTo("No sale in progress. Try scanning a product.");
@@ -33,7 +39,7 @@ public class SaleMultipleItemsTest {
 
     @Test
     public void sellOneItem() {
-        sale.onBarcode(23456);
+        sale.onBarcode(15000);
 
         sale.getTotal();
 
@@ -43,7 +49,7 @@ public class SaleMultipleItemsTest {
     @Test
     public void sellOneItem_notFound() {
         Catalog catalog = new Catalog(Collections.singletonMap(null, null));
-        sale = new Sale(display, catalog);
+        Sale sale = new Sale(display, catalog);
         sale.onBarcode(22222);
 
         sale.getTotal();
@@ -55,21 +61,19 @@ public class SaleMultipleItemsTest {
     public void sellSeveralItems_trailingZeros() {
         sale.onBarcode(12345);
         sale.onBarcode(23456);
-        sale.onBarcode(34567);
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("Total: $30.00");
+        assertThat(display.getText()).isEqualTo("Total: $3.00");
     }
 
     @Test
     public void sellSeveralItems_LeadingZeros() {
-        sale.onBarcode(23456);
-        sale.onBarcode(34567);
-        sale.onBarcode(11111);
+        sale.onBarcode(44444);
+        sale.onBarcode(55555);
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("Total: $20.01");
+        assertThat(display.getText()).isEqualTo("Total: $0.45");
     }
 }
