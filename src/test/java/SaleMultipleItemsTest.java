@@ -8,8 +8,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class SaleMultipleItemsTest {
 
+    private final static String NO_SALE_IN_PROGRESS = "No sale in progress. Try scanning a product.";
+
     private Display display;
-    private Catalog catalog;
     private Sale sale;
     private Map<Integer, BigDecimal> priceByBarcode = new HashMap<Integer, BigDecimal>() {{
         put(15000, BigDecimal.valueOf(15.00));
@@ -22,7 +23,7 @@ public class SaleMultipleItemsTest {
     @Before
     public void setUp() {
         display = new Display();
-        catalog = new Catalog(priceByBarcode);
+        Catalog catalog = new Catalog(priceByBarcode);
         sale = new Sale(display, catalog);
     }
 
@@ -34,7 +35,7 @@ public class SaleMultipleItemsTest {
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("No sale in progress. Try scanning a product.");
+        assertThat(display.getText()).isEqualTo(NO_SALE_IN_PROGRESS);
     }
 
     @Test
@@ -54,7 +55,7 @@ public class SaleMultipleItemsTest {
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("No sale in progress. Try scanning a product.");
+        assertThat(display.getText()).isEqualTo(NO_SALE_IN_PROGRESS);
     }
 
     @Test
@@ -76,4 +77,17 @@ public class SaleMultipleItemsTest {
 
         assertThat(display.getText()).isEqualTo("Total: $0.45");
     }
+
+//    @Test
+//    public void sellSeveralItems_OneNotFound() {
+//        sale.onBarcode(15000);
+//        sale.onBarcode(12345);
+//        sale.onBarcode(99999);
+//        String resultFromLastScan = display.getText();
+//
+//        sale.getTotal();
+//
+//        assertThat(display.getText()).isEqualTo("Total: $16.00");
+//        assertThat(resultFromLastScan).isEqualTo("Product not found for: 99999");
+//    }
 }

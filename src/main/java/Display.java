@@ -1,6 +1,8 @@
 public class Display {
     private String text;
 
+// TODO: Make 2 separate text displays?
+
     public String getText() {
         return text;
     }
