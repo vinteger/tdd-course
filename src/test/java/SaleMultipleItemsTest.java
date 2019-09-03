@@ -35,7 +35,7 @@ public class SaleMultipleItemsTest {
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo(NO_SALE_IN_PROGRESS);
+        assertThat(display.getTotal()).isEqualTo(NO_SALE_IN_PROGRESS);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class SaleMultipleItemsTest {
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("Total: $15.00");
+        assertThat(display.getTotal()).isEqualTo("Total: $15.00");
     }
 
     @Test
@@ -55,7 +55,7 @@ public class SaleMultipleItemsTest {
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo(NO_SALE_IN_PROGRESS);
+        assertThat(display.getTotal()).isEqualTo(NO_SALE_IN_PROGRESS);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class SaleMultipleItemsTest {
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("Total: $3.00");
+        assertThat(display.getTotal()).isEqualTo("Total: $3.00");
     }
 
     @Test
@@ -75,19 +75,19 @@ public class SaleMultipleItemsTest {
 
         sale.getTotal();
 
-        assertThat(display.getText()).isEqualTo("Total: $0.45");
+        assertThat(display.getTotal()).isEqualTo("Total: $0.45");
     }
 
-//    @Test
-//    public void sellSeveralItems_OneNotFound() {
-//        sale.onBarcode(15000);
-//        sale.onBarcode(12345);
-//        sale.onBarcode(99999);
-//        String resultFromLastScan = display.getText();
-//
-//        sale.getTotal();
-//
-//        assertThat(display.getText()).isEqualTo("Total: $16.00");
-//        assertThat(resultFromLastScan).isEqualTo("Product not found for: 99999");
-//    }
+    @Test
+    public void sellSeveralItems_OneNotFound() {
+        sale.onBarcode(15000);
+        sale.onBarcode(12345);
+        sale.onBarcode(99999);
+        String resultFromLastScan = display.getTotal();
+
+        sale.getTotal();
+
+        assertThat(display.getTotal()).isEqualTo("Total: $16.00");
+        assertThat(resultFromLastScan).isEqualTo("Product not found for: 99999");
+    }
 }

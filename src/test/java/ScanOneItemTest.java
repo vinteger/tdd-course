@@ -26,30 +26,30 @@ public class ScanOneItemTest {
     @Test
     public void productFound_displaysPrice() {
         sale.onBarcode(12345);
-        assertThat(display.getText()).isEqualTo("$1.99");
+        assertThat(display.getTextOnScan()).isEqualTo("$1.99");
     }
 
     @Test
     public void productFoundAgain_displaysPrice() {
         sale.onBarcode(23456);
-        assertThat(display.getText()).isEqualTo("$2.99");
+        assertThat(display.getTextOnScan()).isEqualTo("$2.99");
     }
 
     @Test
     public void nonExistingBarcode_00000_displaysProductNotFound() {
         sale.onBarcode(88888);
-        assertThat(display.getText()).isEqualTo("Product not found for: 88888");
+        assertThat(display.getTextOnScan()).isEqualTo("Product not found for: 88888");
     }
 
     @Test
     public void nonExistingBarcode_99999_displaysProductNotFound() {
         sale.onBarcode(99999);
-        assertThat(display.getText()).isEqualTo("Product not found for: 99999");
+        assertThat(display.getTextOnScan()).isEqualTo("Product not found for: 99999");
     }
 
     @Test
     public void null_displaysInvalidInput() {
         sale.onBarcode(null);
-        assertThat(display.getText()).isEqualTo("Invalid input");
+        assertThat(display.getTextOnScan()).isEqualTo("Invalid input");
     }
 }
