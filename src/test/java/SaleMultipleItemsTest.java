@@ -33,18 +33,18 @@ public class SaleMultipleItemsTest {
         Catalog catalog = new Catalog(priceByBarcode);
         Sale sale = new Sale(display, catalog);
 
-        sale.getTotal();
+        sale.getSaleTotal();
 
-        assertThat(display.getTotal()).isEqualTo(NO_SALE_IN_PROGRESS);
+        assertThat(display.getDisplayTotal()).isEqualTo(NO_SALE_IN_PROGRESS);
     }
 
     @Test
     public void sellOneItem() {
         sale.onBarcode(15000);
 
-        sale.getTotal();
+        sale.getSaleTotal();
 
-        assertThat(display.getTotal()).isEqualTo("Total: $15.00");
+        assertThat(display.getDisplayTotal()).isEqualTo("Total: $15.00");
     }
 
     @Test
@@ -53,9 +53,9 @@ public class SaleMultipleItemsTest {
         Sale sale = new Sale(display, catalog);
         sale.onBarcode(22222);
 
-        sale.getTotal();
+        sale.getSaleTotal();
 
-        assertThat(display.getTotal()).isEqualTo(NO_SALE_IN_PROGRESS);
+        assertThat(display.getDisplayTotal()).isEqualTo(NO_SALE_IN_PROGRESS);
     }
 
     @Test
@@ -63,31 +63,31 @@ public class SaleMultipleItemsTest {
         sale.onBarcode(12345);
         sale.onBarcode(23456);
 
-        sale.getTotal();
+        sale.getSaleTotal();
 
-        assertThat(display.getTotal()).isEqualTo("Total: $3.00");
+        assertThat(display.getDisplayTotal()).isEqualTo("Total: $3.00");
     }
 
     @Test
-    public void sellSeveralItems_LeadingZeros() {
+    public void sellSeveralItems_leadingZeros() {
         sale.onBarcode(44444);
         sale.onBarcode(55555);
 
-        sale.getTotal();
+        sale.getSaleTotal();
 
-        assertThat(display.getTotal()).isEqualTo("Total: $0.45");
+        assertThat(display.getDisplayTotal()).isEqualTo("Total: $0.45");
     }
 
     @Test
-    public void sellSeveralItems_OneNotFound() {
-        sale.onBarcode(15000);
+    public void sellSeveralItems_oneNotFound() {
         sale.onBarcode(12345);
+        sale.onBarcode(15000);
         sale.onBarcode(99999);
-        String resultFromLastScan = display.getTotal();
+        String resultFromLastScan = display.getTextOnScan();
 
-        sale.getTotal();
+        sale.getSaleTotal();
 
-        assertThat(display.getTotal()).isEqualTo("Total: $16.00");
         assertThat(resultFromLastScan).isEqualTo("Product not found for: 99999");
+        assertThat(display.getDisplayTotal()).isEqualTo("Total: $16.00");
     }
 }

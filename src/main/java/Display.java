@@ -1,5 +1,6 @@
 public class Display {
-    private String total;
+
+    private String displayTotal;
     private String textOnScan;
 
     public String getTextOnScan() {
@@ -10,31 +11,31 @@ public class Display {
         this.textOnScan = textOnScan;
     }
 
-    public String getTotal() {
-        return total;
+    public String getDisplayTotal() {
+        return displayTotal;
     }
 
-    private void setTotal(String total) {
-        this.total = total;
+    private void setDisplayTotal(String displayTotal) {
+        this.displayTotal = displayTotal;
     }
 
-    public void displayProductPrice(String priceAsText) {
+    void displayNoSaleInProgress() {
+        setDisplayTotal("No sale in progress. Try scanning a product.");
+    }
+
+    void displayTotalPurchase(String price) {
+        setDisplayTotal("Total: $" + price);
+    }
+
+    void displayProductPriceFromScan(String priceAsText) {
         setTextOnScan(priceAsText);
     }
 
-    public void displayTotalPurchase(String price) {
-        setTotal("Total: $" + price);
-    }
-
-    public void displayProductNotFoundForBarcode(Integer barcode) {
+    void displayProductNotFoundForBarcodeFromScan(Integer barcode) {
         setTextOnScan("Product not found for: " + barcode);
     }
 
-    public void displayInvalidInput() {
+    void displayInvalidInputFromScan() {
         setTextOnScan("Invalid input");
-    }
-
-    public void displayNoSaleInProgress() {
-        setTotal("No sale in progress. Try scanning a product.");
     }
 }

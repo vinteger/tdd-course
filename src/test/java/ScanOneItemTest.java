@@ -14,6 +14,7 @@ public class ScanOneItemTest {
     private Map<Integer, BigDecimal> priceByBarcode = new HashMap<Integer, BigDecimal>() {{
         put(12345, BigDecimal.valueOf(1.99));
         put(23456, BigDecimal.valueOf(2.99));
+        put(34567, BigDecimal.valueOf(3.00));
     }};
 
     @Before
@@ -51,5 +52,11 @@ public class ScanOneItemTest {
     public void null_displaysInvalidInput() {
         sale.onBarcode(null);
         assertThat(display.getTextOnScan()).isEqualTo("Invalid input");
+    }
+
+    @Test
+    public void productFound_displaysPrice_TrailingZeros() {
+        sale.onBarcode(34567);
+        assertThat(display.getTextOnScan()).isEqualTo("$3.00");
     }
 }

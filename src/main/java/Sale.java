@@ -7,8 +7,7 @@ public class Sale {
     private Display display;
     private Catalog catalog;
     private List<BigDecimal> priceTotal = new ArrayList<>();
-
-    private BigDecimal scannedPrice;
+    private boolean saleInProgress = false;
 
     public Sale(Display display, Catalog catalog) {
         this.display = display;
@@ -18,33 +17,33 @@ public class Sale {
     public void onBarcode(Integer barcode) {
 
         if (barcode == null) {
-            display.displayInvalidInput();
+            display.displayInvalidInputFromScan();
             return;
         }
 
-        scannedPrice = findPriceByBarcode(barcode);
+        BigDecimal scannedPrice = findPriceByBarcode(barcode);
 
         if (scannedPrice != null) {
             priceTotal.add(scannedPrice);
+            saleInProgress = true;
             updateCurrentTotalText(barcode);
         } else {
-            display.displayProductNotFoundForBarcode(barcode);
+            display.displayProductNotFoundForBarcodeFromScan(barcode);
         }
     }
 
-    public void getTotal() {
+    public void getSaleTotal() {
 
-        boolean saleInProgress = scannedPrice != null;
         if (saleInProgress) {
             display.displayTotalPurchase(getCurrentTotal());
         } else {
             display.displayNoSaleInProgress();
         }
-
     }
 
     private void updateCurrentTotalText(Integer barcode) {
-        display.displayProductPrice("$" + findPrice(barcode));
+
+        display.displayProductPriceFromScan("$" + findPrice(barcode));
     }
 
     private BigDecimal findPriceByBarcode(Integer barcode) {
@@ -52,11 +51,21 @@ public class Sale {
     }
 
     private String findPrice(Integer barcode) {
-        return catalog.getPrice(barcode).toString();
+        BigDecimal priceFromInventory = catalog.getPrice(barcode);
+        return formatMoney(priceFromInventory);
     }
 
     private String getCurrentTotal() {
-        Optional<BigDecimal> total = priceTotal.stream().reduce(BigDecimal::add);
-        return total.get().setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
+        if(!priceTotal.isEmpty()) {
+            Optional<BigDecimal> total = priceTotal.stream().reduce(BigDecimal::add);
+            return formatMoney(total.get());
+        } else {
+            return "";
+        }
+    }
+
+    private String formatMoney(BigDecimal amount) {
+        return amount.setScale(2, BigDecimal.ROUND_HALF_EVEN).toString();
+
     }
 }
