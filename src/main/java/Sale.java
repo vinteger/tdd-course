@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Sale {
+
     private Display display;
     private Catalog catalog;
     private List<BigDecimal> priceTotal = new ArrayList<>();
@@ -41,11 +42,6 @@ public class Sale {
         }
     }
 
-    private void updateCurrentTotalText(Integer barcode) {
-
-        display.displayProductPriceFromScan("$" + findPrice(barcode));
-    }
-
     private BigDecimal findPriceByBarcode(Integer barcode) {
         return catalog.getPrice(barcode);
     }
@@ -53,6 +49,10 @@ public class Sale {
     private String findPrice(Integer barcode) {
         BigDecimal priceFromInventory = catalog.getPrice(barcode);
         return formatMoney(priceFromInventory);
+    }
+
+    private void updateCurrentTotalText(Integer barcode) {
+        display.displayProductPriceFromScan("$" + findPrice(barcode));
     }
 
     private String getCurrentTotal() {

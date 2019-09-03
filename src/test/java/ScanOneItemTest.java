@@ -15,6 +15,7 @@ public class ScanOneItemTest {
         put(12345, BigDecimal.valueOf(1.99));
         put(23456, BigDecimal.valueOf(2.99));
         put(34567, BigDecimal.valueOf(3.00));
+        put(45678, BigDecimal.valueOf(0.05));
     }};
 
     @Before
@@ -55,8 +56,14 @@ public class ScanOneItemTest {
     }
 
     @Test
-    public void productFound_displaysPrice_TrailingZeros() {
+    public void productFound_displaysPrice_trailingZeros() {
         sale.onBarcode(34567);
         assertThat(display.getTextOnScan()).isEqualTo("$3.00");
+    }
+
+    @Test
+    public void productFound_displaysPrice_leadingZeros() {
+        sale.onBarcode(45678);
+        assertThat(display.getTextOnScan()).isEqualTo("$0.05");
     }
 }
